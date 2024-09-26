@@ -32,6 +32,6 @@ jobs:
         id: get_version
         with:
           dry_run: false
-          tag_format: "${version}-web-staking"
+          tag_format: "web-staking-${version}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
