@@ -45,7 +45,7 @@ jobs:
 
       - name: Create and push tag
         run: |
-          git tag -f ${{ steps.get_version.outputs.new_release_version }}
-          git push origin -f ${{ steps.get_version.outputs.new_release_version }}
+          git tag -f ${{ steps.get_version.outputs.new_release_git_tag }}
+          git push origin -f ${{ steps.get_version.outputs.new_release_git_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
