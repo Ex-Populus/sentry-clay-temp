@@ -1,3 +1,8 @@
+## [1.1.17-develop.1](https://github.com/Ex-Populus/sentry-clay-temp/compare/1.1.16...1.1.17-develop.1) (2024-09-26)
+
+
+### Bug Fixes
+
 # 1.0.0-develop.1 (2024-09-26)
 
 
