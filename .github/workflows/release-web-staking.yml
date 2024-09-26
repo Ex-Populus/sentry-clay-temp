@@ -11,27 +11,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      # Inline install of semantic-release packages
-      - name: Install semantic-release and plugins
-        run: |
-          pnpm add -D -w semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/git @semantic-release/github @semantic-release/changelog 
+#      - name: Install dependencies
+#        run: pnpm install
+#
+#      # Inline install of semantic-release packages
+#      - name: Install semantic-release and plugins
+#        run: |
+#          pnpm add -D -w semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/git @semantic-release/github @semantic-release/changelog
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         id: get_version
         with:
-          dry_run: false
+          dry_run: true
           tag_format: "web-staking-${version}"
+          extra_plugins: |
+            @semantic-release/changelog@6.0.0
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push tag
+        run: |
+          git tag -f ${{ steps.get_version.outputs.new_release_version }}
+          git push origin -f ${{ steps.get_version.outputs.new_release_version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
